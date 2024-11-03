@@ -6,9 +6,8 @@ import openai
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from chatbot_backend.settings import OPENAI_API
 
-# os.environ["OPENAI_API_KEY"] = "YOUR_API_KEY"
+os.environ["OPENAI_API_KEY"] = "YOUR_API_KEY" # 보안을 위해 API KEY 여기서 뿌려줌
 
 @api_view(['POST'])
 def chatbot_response(request):
@@ -24,7 +23,7 @@ def chatbot_response(request):
         #OpenAI API 호출하여 챗봇 응답 받기
         client = OpenAI(
     # This is the default and can be omitted
-        api_key=os.environ.get(OPENAI_API),
+        api_key=os.environ.get("OPENAI_API_KEY"),
     )
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -41,8 +40,7 @@ def chatbot_response(request):
                     -  상황을 파악하는 것을 중심으로 커뮤니케이션을 합니다.\
                     - 파악한 상황에 대해  정직하게 조언을 하되 내담자가 상처받지 않도록 답변을 해주어야 합니다.\
                     - 예의바르지만, 친구처럼 편안한 어투로 반말을 사용하여 말합니다."},
-                {"role": "user", 
-                 "content": user_input},
+                {"role": "user", "content": user_input},
                 
             ]
             
@@ -59,7 +57,9 @@ def chatbot_response(request):
     #     messages=response,
     #     temperature=0
     # )
-        chatbot_message = response['choices'][0].message
+        # chatbot_message = response['choices'][0].message.content
+        chatbot_message = response.choices[0].message.content #OPENAI 버전 업그레이드로 인한 함수 return 값의 type 변경
+         
 
         return Response({"response": chatbot_message}, status=status.HTTP_200_OK)
 

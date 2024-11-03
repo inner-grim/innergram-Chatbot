@@ -1,3 +1,6 @@
+import os
+from django.core.management.utils import get_random_secret_key
+print(get_random_secret_key())
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.sessions',
@@ -8,23 +11,19 @@ INSTALLED_APPS = [
     'rest_framework',
     'chatbot_api',
 ]
+SECRET_KEY = get_random_secret_key()
 
 STATIC_URL = '/static/'
 
-OPENAI_API  = "YOUR_API_KEY"
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 DEBUG = True
 
 ROOT_URLCONF = 'chatbot_backend.urls'
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',  # E410 해결
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',  # E408 해결
     'django.contrib.messages.middleware.MessageMiddleware',  # E409 해결
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 TEMPLATES = [
@@ -42,5 +41,3 @@ TEMPLATES = [
         },
     },
 ]
-
-from django.core.management.utils import get_random_secret_key
