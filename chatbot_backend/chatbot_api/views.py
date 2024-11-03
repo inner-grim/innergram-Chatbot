@@ -6,9 +6,10 @@ import openai
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from chatbot_backend.chatbot_backend.settings import OPENAI_API
+from chatbot_backend.settings import OPENAI_API
 
 # os.environ["OPENAI_API_KEY"] = "YOUR_API_KEY"
+
 @api_view(['POST'])
 def chatbot_response(request):
     '''
@@ -26,6 +27,7 @@ def chatbot_response(request):
         api_key=os.environ.get(OPENAI_API),
     )
         response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", 
                  "content": "당신은 국내 최고의 '심리상담가'  이님입니다. 가장 친한 친구와 반말로 대화하고 있습니다.\
@@ -39,24 +41,25 @@ def chatbot_response(request):
                     -  상황을 파악하는 것을 중심으로 커뮤니케이션을 합니다.\
                     - 파악한 상황에 대해  정직하게 조언을 하되 내담자가 상처받지 않도록 답변을 해주어야 합니다.\
                     - 예의바르지만, 친구처럼 편안한 어투로 반말을 사용하여 말합니다."},
-                {"role": "user", "content": user_input},
+                {"role": "user", 
+                 "content": user_input},
                 
-            ],
-            model="gpt-3.5-turbo",
+            ]
+            
         )
         # response = client.chat.completions.create(
-        model='gpt-3.5-turbo',
+        # model='gpt-3.5-turbo',
         #     messages=[
         #         {"role": "system", "content": "당신은 도움을 주는 어시스턴트입니다."},
         #         {"role": "user", "content": user_input},
         #     ]
-        # )
-        response = client.chat.completions.create(
-        model=model,
-        messages=response,
-        temperature=0
-    )
-        chatbot_message = response['choices'][0].message.content
+    #     # )
+    #     response = client.chat.completions.create(
+    #     model=model,
+    #     messages=response,
+    #     temperature=0
+    # )
+        chatbot_message = response['choices'][0].message
 
         return Response({"response": chatbot_message}, status=status.HTTP_200_OK)
 
