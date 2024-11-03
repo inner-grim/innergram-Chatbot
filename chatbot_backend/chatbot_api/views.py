@@ -6,7 +6,7 @@ import openai
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from chatbot_backend.settings import OPENAI_API
+from chatbot_backend.chatbot_backend.settings import OPENAI_API
 
 # os.environ["OPENAI_API_KEY"] = "YOUR_API_KEY"
 @api_view(['POST'])
