@@ -1,0 +1,50 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 환경 설정 파일
+.env
+*.env
+
+# 가상환경 폴더
+venv/
+env/
+ENV/
+.venv/
+
+# Django 관련 파일
+db.sqlite3
+*.sqlite3
+/media/
+*.log
+
+# Django migration 파일
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Pytest, Coverage, 기타 테스트 파일
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+*.py,cover
+.tox/
+nosetests.xml
+coverage.xml
+*.coveragerc
+*.hypothesis/
+
+# MyPy 파일
+.mypy_cache/
+
+# 기타 IDE 및 OS 관련 파일
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.bak
+*.swp
+
+# pyd
+*.pyd
