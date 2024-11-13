@@ -52,3 +52,4 @@ jobs:
             -e "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
             innergrim-chatbot:latest
           EOF
+          
