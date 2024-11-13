@@ -15,7 +15,7 @@ SECRET_KEY = get_random_secret_key()
 
 STATIC_URL = '/static/'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*', '127.0.0.1', 'localhost']
 DEBUG = True
 
 ROOT_URLCONF = 'chatbot_backend.urls'

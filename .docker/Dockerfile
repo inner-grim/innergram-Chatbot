@@ -2,10 +2,10 @@
 FROM python:3.10
 
 # 필요한 네트워크 도구들 설치
-RUN apt-get update && apt-get install -y \
-    net-tools \
-    iproute2 \
-    curl
+# RUN apt-get update && apt-get install -y \
+#     net-tools \
+#     iproute2 \
+#     curl
 
 # 2. 작업 디렉터리 생성 및 설정
 WORKDIR /app
