@@ -1,0 +1,54 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "feature/deploy" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Build Docker image
+        run: docker build -t innergram-chatbot:latest -f .docker/Dockerfile .
+
+      - name: Save Docker image to a tar file
+        run: docker save innergram-chatbot:latest > innergram-chatbot.tar
+
+      - name: Upload Docker image tar as an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docker-image
+          path: innergram-chatbot.tar
+
+      - name: Deploy to EC2
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > /tmp/id_rsa
+          chmod 600 /tmp/id_rsa
+          
+          scp -o StrictHostKeyChecking=no -i /tmp/id_rsa innergram-chatbot.tar ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user
+          ssh -o StrictHostKeyChecking=no -i /tmp/id_rsa ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          
+          docker rmi -f innergram-chatbot || true
+          docker load < /home/ec2-user/innergram-chatbot.tar
+          docker stop innergram-chatbot || true
+          docker rm innergram-chatbot || true
+          docker run -d --name innergram-chatbot -p 8000:8000 \
+            -e "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" \
+            -e "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+            innergram-chatbot:latest
+          EOF
