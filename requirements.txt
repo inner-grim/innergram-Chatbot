@@ -2,3 +2,4 @@ streamlit
 django
 djangorestframework
 openai
+boto3
