@@ -47,7 +47,7 @@ jobs:
           docker load < /home/ec2-user/innergram-chatbot.tar
           docker stop innergram-chatbot || true
           docker rm innergram-chatbot || true
-          docker run -d --name innergram-chatbot -p 8000:8000 \
+          docker run -d --name innergram-chatbot --network service-network -p 8000:8000 \
             -e "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" \
             -e "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
             innergram-chatbot:latest
