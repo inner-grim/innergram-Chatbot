@@ -11,7 +11,9 @@ import boto3
 # Parameter Store를 통해 API KEY 값 세팅
 def fetch_api_key_from_parameter_store(parameter_name):
     print('11111')
-    ssm = boto3.client('ssm')
+    region = os.getenv('AWS_REGION')
+    print(region)
+    ssm = boto3.client('ssm', region_name=region)
     print('22222')
     response = ssm.get_parameter(Name=parameter_name, WithDecryption=True)
     print('33333')
