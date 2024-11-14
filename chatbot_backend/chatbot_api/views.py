@@ -21,6 +21,7 @@ def chatbot_response(request):
     '''
     try:
         api_key = fetch_api_key_from_parameter_store('/parameter/chatbot/api.key')
+        print(api_key)
         os.environ["OPENAI_API_KEY"] = api_key # 보안을 위해 API KEY 여기서 뿌려줌
 
         user_input = request.data.get('user_input')
