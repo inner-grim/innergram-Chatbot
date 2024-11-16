@@ -10,13 +10,9 @@ import boto3
 
 # Parameter Store를 통해 API KEY 값 세팅
 def fetch_api_key_from_parameter_store(parameter_name):
-    print('11111')
     region = os.getenv('AWS_REGION')
-    print(region)
     ssm = boto3.client('ssm', region_name=region)
-    print('22222')
     response = ssm.get_parameter(Name=parameter_name, WithDecryption=True)
-    print('33333')
     return response['Parameter']['Value']
 
 @api_view(['POST'])
@@ -25,10 +21,7 @@ def chatbot_response(request):
     사용자 입력을 ChatGPT 모델로 전송하고, 응답을 반환하는 API
     '''
     try:
-        print('00000')
         api_key = fetch_api_key_from_parameter_store('/parameter/chatbot/api.key')
-        print('44444')
-        print(api_key)
         os.environ["OPENAI_API_KEY"] = api_key # 보안을 위해 API KEY 여기서 뿌려줌
 
         user_input = request.data.get('user_input')
