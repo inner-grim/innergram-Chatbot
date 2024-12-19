@@ -4,6 +4,7 @@
 - Python 3.9
 - OpenAI api (gpt-3.5-turbo)
 - streamlit
+- langchain 0.3.12
 
 ### 기능
 사용자와 대화하는 메인 챗봇으로 사용자와 상담 진행.
