@@ -4,5 +4,5 @@ langchain_community
 pydantic
 uvicorn
 fastapi
-openai==1.20.0
+openai
 boto3
