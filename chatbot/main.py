@@ -7,7 +7,7 @@ import os
 import boto3
 
 def fetch_api_key_from_parameter_store(parameter_name):
-    ssm = boto3.client('ssm')
+    ssm = boto3.client('ssm', region_name='ap-northeast-2')
     response = ssm.get_parameter(Name=parameter_name, WithDecryption=True)
     return response['Parameter']['Value']
 
